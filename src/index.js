@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import jsonData from "./data/pizza_data";
 import "./index.css";
+import pizzaData from "./data/pizza_data";
 
 function App() {
   return (
     <>
-      <body>
+      <div>
         <section id="food-menu">
-          <h2 className="food-menu-heading">
+          <h2>
             <Header />
           </h2>
           <h5 className="food-menu-sub-heading">Our Menu</h5>
@@ -17,7 +17,7 @@ function App() {
             <Footer />
           </div>
         </section>
-      </body>
+      </div>
     </>
   );
 }
@@ -25,39 +25,56 @@ function App() {
 function Header() {
   return (
     <>
-      <h2>Fast React Pizza Co.</h2>{" "}
+      <p className="food-menu-heading">Fast React Pizza Co.</p>
       {/* when we use css properties, we use JavaScript objects `{}`. Not only applies to css but possible many others */}
     </>
   );
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.Vegetarian.length; // By checking the array length, we can determine if there are any pizzas
+
   return (
     <>
-      <Pizza
-        name="Vegan Veggie"
-        toppings="Baby Bell Peppers, Basil, Daiya Vegan Mozzarella, Kalamata Olives, Oregano, Red Onions, Roasted Garlic, Tomato Sauce"
-        price={23.95}
-        photo="https://assets.zumepizza.com/public/j4lb8iry.jpg"
-        menu_description="Daiya vegan mozzarella, paired with fresh veggies"
-      />
+      {/* We have the option to do it this way, passing the props in each attribute. However, we will try to pass the entire props in an object */}
+      {/* {pizzaData.Vegetarian.map((pizza) => (
+        <Pizza
+          name={pizza.name}
+          photo={pizza.photo}
+          menu_description={pizza.menu_description}
+          price={pizza.price}
+          toppings={pizza.toppings.map((toppings) => `${toppings.name}, `)}
+        />
+      ))} */}
+
+      {/* We will pass the props as an object using the `map` array function */}
+      {numPizzas > 0 ? ( // We are conditionally rendering the pizzas using ternary operator, else we should not render it. The condition follows: if numPizzas greater than 0, run/display first value 'pizzaData.Vegetarian.map...' else run/display 'We're still working on...'
+        pizzaData.Vegetarian.map((pizza) => (
+          <Pizza pizzaObj={pizza} key={pizza.name} /> // Since we are passing the props as an object, we should access the props in the Pizza component via attribute name 'pizzaObj'
+        ))
+      ) : (
+        <p>We're still working on our menu. Please come back later.</p>
+      )}
     </>
   );
 }
 
 function Pizza(props) {
+  // So we can access the props using the attribute name in line 50. That is 'pizzaObj'. By using the keyword 'props.pizzaObj', we are able to access the data.
   return (
     <div className="food-menu-container container">
       <div className="food-menu-item">
         <div className="food-img">
-          <img src={props.photo} alt="{name}" />
+          <img src={props.pizzaObj.photo} alt="{name}" />
         </div>
         <div className="food-description">
-          <h2>{props.name}</h2>
+          <h2>{props.pizzaObj.name}</h2>
           <p className="food-price">{props.price}</p>
-          <p>{props.menu_description}</p>
+          <p>{props.pizzaObj.menu_description}</p>
           <h4>
-            <strong>Toppings:</strong> {props.toppings}
+            <strong>Toppings:</strong>{" "}
+            {props.pizzaObj.toppings.map((toppings) => `${toppings.name}, `)}
           </h4>
         </div>
       </div>
@@ -66,18 +83,34 @@ function Pizza(props) {
 }
 
 function Footer() {
-  // const hour = new Date().getHours();
-  // const openHour = 12;
-  // const closeHour = 22;
+  const hour = new Date().getHours();
+  const openHour = 12;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
 
-  // if (hour >= openHour && hour <= closeHour) alert("We're currently open!");
-  // else alert("Sorry we're closed.");
   return (
     <>
       <footer id="footer">
-        {new Date().toLocaleTimeString()}. We're currently open.
+        {isOpen ? (
+          <Order closeHour={closeHour} />
+        ) : (
+          <p>
+            We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+          </p>
+        )}
       </footer>
     </>
+  );
+}
+
+function Order(props) {
+  return (
+    <div>
+      <p>
+        We're open until {props.closeHour}:00. Come visit us or order online.
+      </p>
+      <button className="btn">Order</button>
+    </div>
   );
 }
 

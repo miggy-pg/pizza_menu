@@ -1,9 +1,11 @@
-const jsonData = {
+const pizzaData = {
   Vegetarian: [
     {
       id: 10,
       name: "Vegan Veggie",
       price: "23.95",
+      photo:
+        "https://veganhuggs.com/wp-content/uploads/2017/10/vegan-pizza-recipe-22-1024x683.jpg",
       menu_description: "Daiya vegan mozzarella, paired with fresh veggies",
       classifications: {
         vegetarian: true,
@@ -93,6 +95,8 @@ const jsonData = {
       id: 11,
       name: "Veggie Zupreme",
       price: "19.95",
+      photo:
+        "https://www.bakedbyrachel.com/wp-content/uploads/adthrive/2023/02/supremepizza1_bakedbyrachel-480x720.jpg",
       menu_description: "The freshest, locally sourced veggies",
       classifications: {
         vegetarian: true,
@@ -189,6 +193,8 @@ const jsonData = {
       id: 12,
       name: "The O.G.",
       price: "16.95",
+      photo:
+        "https://www.allrecipes.com/thmb/m4Uz46d-neAIwiBEdcCeBNbppZM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/6776_Pizza-Dough_ddmfs_4x3_1724-fd91f26e0bd6400a9e89c6866336532b.jpg",
       menu_description: "The Margherita—with California flair",
       classifications: {
         vegetarian: true,
@@ -244,4 +250,4 @@ const jsonData = {
   ],
 };
 
-export default jsonData;
+export default pizzaData;
