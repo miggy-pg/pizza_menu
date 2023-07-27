@@ -587,6 +587,10 @@ body {
   }
 }
 
+.gray-img {
+  filter: grayscale(1); /* 70% grayscale */ /* 70% grayscale */
+}
+
 @media (max-width: 500px) {
   html {
     font-size: 65%;

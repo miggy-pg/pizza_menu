@@ -51,7 +51,7 @@ function Menu() {
       {/* We will pass the props as an object using the `map` array function */}
       {numPizzas > 0 ? ( // We are conditionally rendering the pizzas using ternary operator, else we should not render it. The condition follows: if numPizzas greater than 0, run/display first value 'pizzaData.Vegetarian.map...' else run/display 'We're still working on...'
         pizzaData.Vegetarian.map((pizza) => (
-          <Pizza pizzaObj={pizza} key={pizza.name} /> // Since we are passing the props as an object, we should access the props in the Pizza component via attribute name 'pizzaObj'
+          <Pizza pizzaObj={pizza} key={pizza.name} /> // Since we are passing the pizza object, we should access the pizza in the Pizza component via attribute name 'pizzaObj'
         ))
       ) : (
         <p>We're still working on our menu. Please come back later.</p>
@@ -60,21 +60,23 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
-  // So we can access the props using the attribute name in line 50. That is 'pizzaObj'. By using the keyword 'props.pizzaObj', we are able to access the data.
+function Pizza({ pizzaObj }) {
+  // So we can access the props using the attribute name in line 50. That is 'pizzaObj'. By using the keyword 'pizzaObj', we are able to access the data.
   return (
     <div className="food-menu-container container">
       <div className="food-menu-item">
-        <div className="food-img">
-          <img src={props.pizzaObj.photo} alt="{name}" />
+        <div className={`food-img ${pizzaObj.soldOut ? "gray-img" : ""}`}>
+          <img src={pizzaObj.photo} alt="{name}" />
         </div>
         <div className="food-description">
-          <h2>{props.pizzaObj.name}</h2>
-          <p className="food-price">{props.price}</p>
-          <p>{props.pizzaObj.menu_description}</p>
+          <h2>{pizzaObj.name}</h2>
+          <p className="food-price">
+            {pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}
+          </p>
+          <p>{pizzaObj.menu_description}</p>
           <h4>
             <strong>Toppings:</strong>{" "}
-            {props.pizzaObj.toppings.map((toppings) => `${toppings.name}, `)}
+            {pizzaObj.toppings.map((toppings) => `${toppings.name}, `)}
           </h4>
         </div>
       </div>
